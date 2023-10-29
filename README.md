@@ -22,7 +22,7 @@ FROM
 
 Explore more repositories at my GitHub profile.
 Follow me on Twitter for the latest updates.
-For inquiries, reach out to nehazul.hoquet@email.com.
+For inquiries, reach out to nehazul.hoque@email.com.
 🙌 Contributions:
 Contributions to SQLSpark are welcome! If you have a SQL query that's been a game-changer for your projects, feel free to contribute by opening a pull request.
 
