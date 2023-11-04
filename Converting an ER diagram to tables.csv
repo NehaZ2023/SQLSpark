@@ -1,0 +1,116 @@
+Converting an ER diagram to tables involves identifying the entities, their attributes, and the relationships between them, and then creating tables that represent these elements. Below is the conversion of the provided ER diagram into tables:
+
+a) Account:
+
+Ac_no (Primary Key)
+Balance
+
+b)Customer:
+
+C_city
+C_name
+C_street
+CustomerID (Primary Key)
+
+c)Depositor:
+
+CustomerID (Foreign Key referencing Customer)
+Ac_no (Foreign Key referencing Account)
+
+d)Branch:
+
+branch (Primary Key)
+B_city
+e)Borrower:
+
+CustomerID (Foreign Key referencing Customer)
+L_no (Foreign Key referencing Loan)
+
+f)Loan:
+
+L_no (Primary Key)
+Amount
+
+g)Loan_branch:
+
+L_no (Foreign Key referencing Loan)
+branch (Foreign Key referencing Branch)
+
+h)Assets:
+
+Ac_no (Foreign Key referencing Account)
+b_name
+
+
+We can represent the relationships between the above tables:
+
+The Depositor table establishes a relationship between Customer and Account based on the CustomerID and Ac_no keys.
+The Borrower table establishes a relationship between Customer and Loan based on the CustomerID and L_no keys.
+The Loan_branch table establishes a relationship between Loan and Branch based on the L_no and branch keys.
+The Assets table establishes a relationship between Account and Branch based on the Ac_no and b_name keys.
+
+SQL Query on this : 
+
+-- Create the Customer table
+CREATE TABLE Customer (
+    CustomerID INT PRIMARY KEY,
+    C_city VARCHAR(255),
+    C_name VARCHAR(255),
+    C_street VARCHAR(255)
+);
+
+-- Create the Account table
+CREATE TABLE Account (
+    Ac_no INT PRIMARY KEY,
+    Balance DECIMAL(10, 2)
+);
+
+-- Create the Branch table
+CREATE TABLE Branch (
+    branch VARCHAR(255) PRIMARY KEY,
+    B_city VARCHAR(255)
+);
+
+-- Create the Loan table
+CREATE TABLE Loan (
+    L_no INT PRIMARY KEY,
+    Amount DECIMAL(10, 2)
+);
+
+-- Create the Depositor table
+CREATE TABLE Depositor (
+    CustomerID INT,
+    Ac_no INT,
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID),
+    FOREIGN KEY (Ac_no) REFERENCES Account(Ac_no)
+);
+
+-- Create the Borrower table
+CREATE TABLE Borrower (
+    CustomerID INT,
+    L_no INT,
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID),
+    FOREIGN KEY (L_no) REFERENCES Loan(L_no)
+);
+
+-- Create the Loan_branch table
+CREATE TABLE Loan_branch (
+    L_no INT,
+    branch VARCHAR(255),
+    FOREIGN KEY (L_no) REFERENCES Loan(L_no),
+    FOREIGN KEY (branch) REFERENCES Branch(branch)
+);
+
+-- Create the Assets table
+CREATE TABLE Assets (
+    Ac_no INT,
+    b_name VARCHAR(255),
+    FOREIGN KEY (Ac_no) REFERENCES Account(Ac_no),
+    FOREIGN KEY (b_name) REFERENCES Branch(branch)
+);
+
+Select * from Customer,  Account, Branch, Loan, Depositor, Borrower, Loan_branch, Assets
+
+
+
+

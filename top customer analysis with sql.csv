@@ -1,0 +1,32 @@
+Query : 
+-- Creating table customer_table
+CREATE TABLE customer_table (
+    customer_id varchar(50) NOT NULL,
+    customer_name char(25) NOT NULL,
+    region char(15) NOT NULL,
+    order_amount int NOT NULL,
+    PRIMARY KEY (customer_id)
+);
+
+-- Sample data insertion --
+INSERT INTO customer_table (customer_id, customer_name, region, order_amount)
+VALUES
+    ('1', 'Nehaz', 'Bengaluru', 100),
+    ('2', 'Rohon', 'Silchar', 200),
+    ('3', 'Ramesh', 'Kolkata', 150),
+    ('4', 'James', 'Mumbai', 300);
+
+	SELECT * FROM customer_table
+
+-- Query to get the top 5 customers with the highest total order amounts
+
+SELECT TOP 5
+    customer_id,
+    customer_name,
+    SUM(order_amount) AS total_order_amount
+FROM 
+    customer_table
+GROUP BY 
+    customer_id, customer_name
+ORDER BY 
+    total_order_amount DESC;

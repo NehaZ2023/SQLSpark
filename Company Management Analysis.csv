@@ -1,0 +1,101 @@
+CREATE TABLE company (
+    company_code varchar PRIMARY KEY,
+    founder char
+);
+
+CREATE TABLE lead_manager (
+    lead_manager_code varchar PRIMARY KEY,
+    founder char
+);
+
+CREATE TABLE senior_manager (
+    senior_manager_code varchar PRIMARY KEY,
+    lead_manager_code varchar,
+    company_code varchar,
+    FOREIGN KEY (lead_manager_code) REFERENCES lead_manager(lead_manager_code),
+    FOREIGN KEY (company_code) REFERENCES company(company_code)
+);
+
+CREATE TABLE manager (
+    manager_code varchar PRIMARY KEY,
+    senior_manager_code varchar,
+    lead_manager_code varchar,
+    company_code varchar,
+    FOREIGN KEY (senior_manager_code) REFERENCES senior_manager(senior_manager_code),
+    FOREIGN KEY (lead_manager_code) REFERENCES lead_manager(lead_manager_code),
+    FOREIGN KEY (company_code) REFERENCES company(company_code)
+);
+
+CREATE TABLE employee (
+    employee_code varchar PRIMARY KEY,
+    manager_code varchar,
+    senior_manager_code varchar,
+    lead_manager_code varchar,
+    company_code varchar,
+    FOREIGN KEY (manager_code) REFERENCES manager(manager_code),
+    FOREIGN KEY (senior_manager_code) REFERENCES senior_manager(senior_manager_code),
+    FOREIGN KEY (lead_manager_code) REFERENCES lead_manager(lead_manager_code),
+    FOREIGN KEY (company_code) REFERENCES company(company_code)
+);
+
+
+-- Inserting into the company table
+INSERT INTO company (company_code, founder)
+VALUES
+    ('1', 'N'),
+    ('2', 'A');
+
+-- Inserting into the lead_manager table
+INSERT INTO lead_manager (lead_manager_code, founder)
+VALUES
+    ('3', 'D'),
+    ('4', 'S');
+
+-- Inserting into the senior_manager table
+INSERT INTO senior_manager (senior_manager_code, lead_manager_code, company_code)
+VALUES
+    ('5', '3', '1'),
+    ('6', '4', '2');
+
+-- Inserting into the manager table
+INSERT INTO manager (manager_code, senior_manager_code, lead_manager_code, company_code)
+VALUES
+    ('7', '5', '3', '1'),
+    ('8', '6', '4', '2');
+
+-- Inserting into the employee table
+INSERT INTO employee (employee_code, manager_code, senior_manager_code, lead_manager_code, company_code)
+VALUES
+    ('9', '7', '5', '3', '1'),
+    ('10', '8', '6', '4', '2');
+select * from company, lead_manager, senior_manager, manager, employee
+
+	SELECT
+    c.company_code,
+    c.founder AS founder_name,
+    COALESCE(total_lead_managers, 0) AS total_lead_managers,
+    COALESCE(total_senior_managers, 0) AS total_senior_managers,
+    COALESCE(total_managers, 0) AS total_managers,
+    COALESCE(total_employees, 0) AS total_employees
+FROM company c
+LEFT JOIN (
+    SELECT company_code, COUNT(DISTINCT lead_manager_code) AS total_lead_managers
+    FROM senior_manager
+    GROUP BY company_code
+) sm ON c.company_code = sm.company_code
+LEFT JOIN (
+    SELECT company_code, COUNT(DISTINCT senior_manager_code) AS total_senior_managers
+    FROM manager
+    GROUP BY company_code
+) m ON c.company_code = m.company_code
+LEFT JOIN (
+    SELECT company_code, COUNT(DISTINCT manager_code) AS total_managers
+    FROM employee
+    GROUP BY company_code
+) e ON c.company_code = e.company_code
+LEFT JOIN (
+    SELECT company_code, COUNT(DISTINCT employee_code) AS total_employees
+    FROM employee
+    GROUP BY company_code
+) te ON c.company_code = te.company_code
+ORDER BY c.company_code ASC;

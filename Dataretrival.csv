@@ -1,0 +1,24 @@
+Code
+SQL query to find the employees
+who has been with the company for more
+than 5 years and have not received a
+promotion.
+
+Column Type
+emp_id int
+emp_name char
+department char
+duration int
+
+Table: employee_table
+
+
+Query: 
+
+SELECT emp_name
+FROM employee_table
+WHERE duration > 5 AND emp_id NOT IN (
+    SELECT emp_id
+    FROM employee_table
+    WHERE duration > 5 AND department != 'HR' -- Exclude promotions within HR department
+);

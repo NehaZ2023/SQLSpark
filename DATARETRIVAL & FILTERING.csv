@@ -1,0 +1,33 @@
+SQL Query :  
+
+Table: employee_table
+
+Query: CREATE TABLE employee_table (
+    emp_id INT,
+    emp_name CHAR(50),
+    department CHAR(50),
+    salary INT,
+    duration INT
+);
+
+SELECT * FROM employee_table
+
+INSERT INTO employee_table (emp_id, emp_name, department, salary,duration)
+VALUES
+    (1, 'Nehaz', 'Operation', 50000,7),
+    (2, 'David', 'Finance', 60000,5),
+    (3, 'Sagor', 'Marketing', 55000,6),
+    (4, 'Ruhon', 'Engineering', 65000,4),
+    (5, 'Nehaz', 'Support', 48000,8),
+    (6, 'Gaythori', 'Engineering', 70000,3),
+    (7, 'Dan', 'Finance', 62000,2),
+    (8, 'David', 'HR', 52000,1),
+    (9, 'Sophia', 'Marketing', 56000,4),
+    (10, 'Alex', 'Sales', 49000,9);
+
+	--retrieving & filtering data, who have worked in at least 3 different departments--
+
+	SELECT emp_name
+FROM employee_table
+GROUP BY emp_id, emp_name 
+HAVING COUNT(DISTINCT department) >= 3;

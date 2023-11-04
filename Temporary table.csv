@@ -1,0 +1,34 @@
+-- Create a local temporary table
+CREATE TABLE #LocalTempTable (
+    ID INT,
+    Name VARCHAR(50)
+);
+
+-- Insert values into the local temporary table
+INSERT INTO #LocalTempTable (ID, Name)
+VALUES
+    (1, 'Nehaz'),
+    (2, 'Ruhon'),
+    (3, 'Michael');
+
+	select * from  #LocalTempTable
+-- Create a global temporary table
+CREATE TABLE ##GlobalTempTable (
+    ID INT,
+    Name VARCHAR(50)
+);
+
+-- Insert values into the global temporary table
+INSERT INTO ##GlobalTempTable (ID, Name)
+VALUES
+    (1, 'Nehaz'),
+    (2, 'Ruhon'),
+    (3, 'Michael');
+
+		select * from   ##GlobalTempTable
+
+-- Delete the local temporary table
+DROP TABLE #LocalTempTable;
+
+-- Delete the global temporary table
+DROP TABLE ##GlobalTempTable;
