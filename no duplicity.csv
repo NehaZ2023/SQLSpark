@@ -1,0 +1,46 @@
+Query the list of CITY names from the given
+table that do not end with vowels. Your result
+should not contain duplicate values.
+
+Column Type
+id int
+city char
+state char
+Table: city_table
+
+Query : 
+
+--creating table--
+
+CREATE TABLE city_table (
+    id INT,
+    city CHAR(50),
+    state CHAR(50)
+);
+
+select * from city_table
+
+
+
+--inserting values--
+
+INSERT INTO city_table (id, city, state)
+VALUES
+    (1, 'Bengaluru', 'Karnataka'),
+    (2, 'Los Angeles', 'California'),
+    (3, 'Chicago', 'Illinois'),
+    (4, 'Kolkata', 'WestBengal'),
+    (5, 'Mumbai', 'Maharasttha'),
+    (6, 'Silchar', 'Assam'),
+    (7, 'Boston', 'Massachusetts'),
+    (8, 'chennai', 'Tamilnadu'),
+    (9, 'Delhi', 'Delhi'),
+    (10, 'San Francisco', 'California');
+
+	--unique CITY names that do not end with vowels--
+
+SELECT DISTINCT city
+FROM city_table
+WHERE city NOT LIKE '%a' AND city NOT LIKE '%e' AND city NOT LIKE '%i' AND city NOT LIKE '%o' AND city NOT LIKE '%u'
+   AND city NOT LIKE '%A' AND city NOT LIKE '%E' AND city NOT LIKE '%I' AND city NOT LIKE '%O' AND city NOT LIKE '%U';
+
